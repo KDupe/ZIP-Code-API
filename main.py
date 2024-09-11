@@ -1,20 +1,20 @@
 import csv
 import requests
 from flask import Flask, jsonify, request
+from io import StringIO
 
 app = Flask(__name__)
 
 # Read zip code data from CSV file on GitHub
-url = 'https://raw.githubusercontent.com/KDupe/ZIP-Code-API/blob/main/US%20Zip%20Codes.csv'
+url = 'https://raw.githubusercontent.com/KDupe/ZIP-Code-API/main/US%20Zip%20Codes.csv'
 response = requests.get(url)
 csv_data = response.text
 
 
 # Read zip code data from CSV file
 zip_data = {}
-with open('Y:/US Zip Codes/US Zip Codes.csv', 'r') as file:
-    reader = csv.DictReader(file)
-    for row in reader:
+reader = csv.DictReader(StringIO(csv_data))
+for row in reader:
         zipcode = row['zip']
         city = row['city']
         state = row['state_name']
